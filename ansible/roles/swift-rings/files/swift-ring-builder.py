@@ -116,6 +116,10 @@ def main():
     if len(sys.argv) != 4:
         raise Exception("Usage: {0} <config file path> <build path> "
                         "<service name>")
+    # WORKAROUND: https://bugs.launchpad.net/tripleo/+bug/1836572
+    with open("/etc/swift/swift.conf", "w") as conf_file:
+        conf_file.write("[swift-hash]\nswift_hash_path_suffix = %%SWIFT_HASH_PATH_SUFFIX%%\n")
+
     config_path = sys.argv[1]
     build_path = sys.argv[2]
     service_name = sys.argv[3]
